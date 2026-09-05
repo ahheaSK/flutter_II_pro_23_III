@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_23/model/post_daa_model.dart';
 import 'package:pro_23/repository/post_repository.dart';
@@ -19,6 +20,14 @@ class PostController extends GetxController {
   int get total => _total;
 
   bool get hasMore => _page + 1 < _totalPages;
+
+  final TextEditingController titleController = TextEditingController();
+
+  final TextEditingController contentController = TextEditingController();
+
+  final published = false.obs;
+
+  final isCreating = false.obs;
 
   @override
   void onInit() {
@@ -61,6 +70,50 @@ class PostController extends GetxController {
 
     // Update pagination metadata
     _applyMeta(page);
+  }
+
+  Future<void> createPost() async {
+    if (titleController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Title is required');
+      return;
+    }
+
+    if (contentController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Content is required');
+      return;
+    }
+
+    isCreating.value = true;
+
+    final (Data? post, String? error) = await _postRepo.createPost(
+      title: titleController.text.trim(),
+      content: contentController.text.trim(),
+      published: published.value,
+    );
+
+    isCreating.value = false;
+
+    if (error != null) {
+      Get.snackbar('Error', error);
+      return;
+    }
+
+    if (post == null) {
+      Get.snackbar('Error', 'Failed to create post');
+      return;
+    }
+
+    // Add newly created post to the list
+    posts.insert(0, post);
+
+    // Clear form
+    titleController.clear();
+    contentController.clear();
+    published.value = false;
+
+    Get.toNamed('/post-list');
+
+    Get.snackbar('Success', 'Post created successfully');
   }
 
   void _applyMeta(PostDataModel page) {
