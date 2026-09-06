@@ -50,7 +50,8 @@ class PostListScreenScreen extends StatelessWidget {
         print('Building ListView');
         return ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: controller.posts.length +
+          itemCount:
+              controller.posts.length +
               (controller.isLoadingMore.value ? 1 : 0),
           itemBuilder: (context, index) {
             print('BUILD ITEM: $index');
@@ -58,18 +59,14 @@ class PostListScreenScreen extends StatelessWidget {
             if (index == controller.posts.length) {
               return const Padding(
                 padding: EdgeInsets.all(16),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+                child: Center(child: CircularProgressIndicator()),
               );
             }
 
             final Data post = controller.posts[index];
 
             return ListTile(
-              leading: CircleAvatar(
-                child: Text('${post.id ?? ''}'),
-              ),
+              leading: CircleAvatar(child: Text('${post.id ?? ''}')),
               title: Text(post.title ?? ''),
               subtitle: Text(post.content ?? ''),
             );
@@ -85,7 +82,7 @@ class PostListScreenScreen extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed('/posts/form');
+          Get.toNamed('/posts-create');
         },
         child: const Icon(Icons.add),
       ),
