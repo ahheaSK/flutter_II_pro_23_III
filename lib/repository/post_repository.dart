@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:pro_23/constant/api_constant.dart';
 import 'package:pro_23/model/post_daa_model.dart';
 import 'package:pro_23/service/storage_service.dart';
 
@@ -16,7 +17,7 @@ class PostRepository {
   }) async {
     try {
       final Response<dynamic> response = await dio.get(
-        'https://flutter-api.janrent.com/api/posts',
+        ApiConstant.baseUrl + ApiConstant.posts,
         queryParameters: <String, dynamic>{
           'page': page,
           'size': size,
