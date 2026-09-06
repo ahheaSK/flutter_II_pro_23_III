@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:pro_23/constant/api_constant.dart';
+import 'package:pro_23/core/util/api_client.dart';
 import 'package:pro_23/model/post_daa_model.dart';
 import 'package:pro_23/service/storage_service.dart';
 
 class PostRepository {
-  PostRepository();
+  PostRepository(this._api);
   final Dio dio = Dio();
   final StorageService storage = Get.find<StorageService>();
+
+  final ApiClient _api;
 
   Future<(PostDataModel?, String?)> getPageTest({
     int page = 0,
@@ -16,24 +19,22 @@ class PostRepository {
     bool? published,
   }) async {
     try {
-      final Response<dynamic> response = await dio.get(
+      final response = await _api.get(
         ApiConstant.baseUrl + ApiConstant.posts,
-        queryParameters: <String, dynamic>{
+        query: {
           'page': page,
           'size': size,
           'sortBy': 'createdAt',
           'direction': 'desc',
-
           if (title != null && title.isNotEmpty) 'title': title,
-
-          'published': ?published,
+          if (published != null) 'published': published,
         },
       );
 
-      final Map<String, dynamic> json = response.data as Map<String, dynamic>;
-      print("Repository");
+      print('Repository');
       print(response);
-      return (PostDataModel.fromJson(json), null);
+
+      return (PostDataModel.fromJson(response), null);
     } catch (e) {
       return (null, e.toString());
     }

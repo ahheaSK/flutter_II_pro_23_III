@@ -9,7 +9,7 @@ class PostListScreenScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostController controller = Get.put(PostController());
+    final PostController controller = Get.find<PostController>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Posts')),

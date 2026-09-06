@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pro_23/binding/auth_binding.dart';
+import 'package:pro_23/binding/main_binding.dart';
 import 'package:pro_23/binding/post_binding.dart';
 import 'package:pro_23/router/app_route.dart';
 import 'package:pro_23/screen/auth/login_screen.dart';
@@ -21,7 +22,7 @@ class AppPage {
     GetPage<void>(
       name: AppRoute.main,
       page: MainScreen.new,
-      // binding: MainBinding(),
+      binding: MainBinding(),
       transition: Transition.fadeIn,
     ),
     GetPage<void>(

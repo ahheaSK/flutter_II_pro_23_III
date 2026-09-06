@@ -4,8 +4,11 @@ import 'package:pro_23/model/post_daa_model.dart';
 import 'package:pro_23/repository/post_repository.dart';
 
 class PostController extends GetxController {
-  final PostRepository _postRepo = Get.put(PostRepository());
-  final PostRepository postRepository = PostRepository();
+  // final PostRepository _postRepo = Get.put(PostRepository());
+  // final PostRepository postRepository = PostRepository();
+  PostController(this._postRepo);
+
+  final PostRepository _postRepo;
 
   final posts = <Data>[].obs;
   final isLoading = false.obs;
@@ -28,6 +31,8 @@ class PostController extends GetxController {
   final published = false.obs;
 
   final isCreating = false.obs;
+
+  //PostController(PostRepository find);
 
   @override
   void onInit() {
